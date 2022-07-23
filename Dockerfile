@@ -95,13 +95,14 @@ VOLUME [ "/ansible" ]
 ## SSH Setup
 ##
 
-# Add OpenSSH and the dos2unix (convert keys to unix line endings)
+# Add OpenSSH and the dos2unix (convert Windows line endings to linux line
+# endings for the ssh key files)
 RUN apk add --no-cache \
     openssh \
     dos2unix
 
 # Volume for the SSH key mount, will be copied to ~/.ssh by the entrypoint
-# script because the permissions must be fixed if used on Windows hosts.
+# script, because the permissions must be fixed if mounted on a Windows hosts.
 VOLUME [ "/tmp/.ssh" ]
 
 
@@ -116,7 +117,7 @@ RUN apk add --no-cache \
 # Customize bash prompt
 ENV PS1="[$(whoami)@$(hostname) $(pwd)]# "
 
-# Embedd the entrypoint script
+# Embedd and set the entrypoint script
 COPY scripts/docker-entrypoint.sh /bin/docker-entrypoint.sh
 RUN chmod +x /bin/docker-entrypoint.sh
 
