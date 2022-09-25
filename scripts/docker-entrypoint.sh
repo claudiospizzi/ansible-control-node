@@ -13,6 +13,10 @@ find /root/.ssh/ -type f -name "id_*" -exec chmod 600 {} +
 find /root/.ssh/ -type f -name "id_*.pub" -exec chmod 644 {} +
 
 # Start the ssh agent
-eval "$(ssh-agent)"
+eval "$(ssh-agent)" > /dev/null
+
+# Add the ssh keys to the current runspace
+ssh-add
+echo
 
 exec "$@"
