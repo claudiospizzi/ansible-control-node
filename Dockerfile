@@ -117,6 +117,9 @@ RUN apk add --no-cache \
 # Customize bash prompt
 ENV PS1="[$(whoami)@$(hostname) $(pwd)]# "
 
+# Ensure the bash history and ssh known hosts files exists for mounting
+RUN touch ~/.bash_history
+
 # Embedd and set the entrypoint script
 COPY scripts/docker-entrypoint.sh /bin/docker-entrypoint.sh
 RUN chmod +x /bin/docker-entrypoint.sh
