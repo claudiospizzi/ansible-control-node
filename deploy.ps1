@@ -1,4 +1,4 @@
-[CmdletBinding()]
+[CmdletBinding(ConfirmImpact = 'High')]
 param ()
 
 $imageName = 'claudiospizzi/ansible-control-node'
