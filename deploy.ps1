@@ -1,5 +1,7 @@
+[CmdletBinding()]
+param ()
 
-$image = 'claudiospizzi/ansible-control-node'
+$imageName = 'claudiospizzi/ansible-control-node'
 
 $version = Get-Content -Path 'CHANGELOG.md' |
               Select-String -Pattern '## (.*)' |
@@ -17,13 +19,16 @@ $tagMajor = 'v{0}' -f $version.Major
 $tagMinor = 'v{0}.{1}' -f $version.Major, $version.Minor
 $tagPatch = 'v{0}.{1}.{2}' -f $version.Major, $version.Minor, $version.Build
 
-docker build -t "$image`:latest" .
+docker build -t "$imageName`:latest" .
 
-docker image tag "$image`:latest" "$image`:$tagMajor"
-docker image tag "$image`:latest" "$image`:$tagMinor"
-docker image tag "$image`:latest" "$image`:$tagPatch"
+docker image tag "$imageName`:latest" "$imageName`:$tagMajor"
+docker image tag "$imageName`:latest" "$imageName`:$tagMinor"
+docker image tag "$imageName`:latest" "$imageName`:$tagPatch"
 
-docker image push "$image`:latest"
-docker image push "$image`:$tagMajor"
-docker image push "$image`:$tagMinor"
-docker image push "$image`:$tagPatch"
+foreach ($image in "$imageName`:latest", "$imageName`:$tagMajor", "$imageName`:$tagMinor", "$imageName`:$tagPatch")
+{
+    if ($PSCmdlet.ShouldProcess($image, 'Push Image to Docker Hub'))
+    {
+        docker image push $image
+    }
+}
