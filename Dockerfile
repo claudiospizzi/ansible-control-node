@@ -107,6 +107,13 @@ VOLUME [ "/tmp/.ssh" ]
 
 
 ##
+## Ansible Customization
+##
+
+ENV ANSIBLE_LIBRARY /ansible/library
+
+
+##
 ## Startup and Shell
 ##
 
