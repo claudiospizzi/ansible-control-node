@@ -122,7 +122,7 @@ RUN apk add --no-cache \
     bash
 
 # Customize bash prompt
-ENV PS1="[$(whoami)@$(hostname) $(pwd)]# "
+ENV PS1="\[\033[01;32m\]\u@ansible-control-node\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
 
 # Ensure the bash history and ssh known hosts files exists for mounting
 RUN touch ~/.bash_history
