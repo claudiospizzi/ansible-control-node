@@ -1,15 +1,17 @@
-FROM alpine:3.14.2
+FROM alpine:3.14.8
 
 
 ##
-## PowerShell 7.2.4
+## PowerShell 7.3.0
+## Verity the supported Alpine version. As of Dec 2022, only Alpine 3.14 is
+## supported for PowerShell 7.3.0.
 ## https://docs.microsoft.com/en-us/powershell/scripting/install/install-alpine?view=powershell-7.2
 ##
 
 ENV PWSH_PATH /opt/microsoft/powershell/7
-ENV PWSH_VERSION 7.2.4
+ENV PWSH_VERSION 7.3.0
 
-# Install the PowerShell 7.2.4 dependencies
+# Install the PowerShell dependencies
 RUN apk add --no-cache \
     ca-certificates \
     less \
@@ -27,7 +29,7 @@ RUN apk add --no-cache \
 RUN apk -X https://dl-cdn.alpinelinux.org/alpine/edge/main add --no-cache \
     lttng-ust
 
-# Download and install (extract) PowerShell 7.2.4
+# Download and install (extract) PowerShell
 RUN mkdir -p $PWSH_PATH \
     && curl -L https://github.com/PowerShell/PowerShell/releases/download/v$PWSH_VERSION/powershell-$PWSH_VERSION-linux-alpine-x64.tar.gz -o /tmp/powershell.tar.gz \
     && tar zxf /tmp/powershell.tar.gz -C $PWSH_PATH \
@@ -39,7 +41,7 @@ RUN ln -s $PWSH_PATH/pwsh /usr/bin/pwsh
 
 
 ##
-## Ansible 5.7.1
+## Ansible 6.2.0
 ## https://github.com/jmal98/ansiblecm/blob/master/Dockerfile
 ##
 
@@ -56,7 +58,7 @@ RUN apk add --no-cache \
     musl-dev \
     openssh \
     openssl-dev \
-    python3-dev=3.9.5-r2 \
+    python3-dev=3.9.15-r0 \
     py3-cffi \
     py3-cryptography=3.3.2-r1 \
     py3-setuptools=52.0.0-r3 \
@@ -73,7 +75,7 @@ RUN python3 -m ensurepip --upgrade
 
 # Install ansible and all required python modules
 RUN pip3 install \
-    ansible==5.7.1 \
+    ansible==6.2.0 \
     botocore==1.23.1 \
     boto==2.49.0 \
     PyYAML==5.4.1 \
@@ -122,13 +124,13 @@ RUN apk add --no-cache \
     bash
 
 # Customize bash prompt
-ENV PS1="\[\033[01;32m\]\u@ansible-control-node\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+ENV PS1="\[\033[01;32m\]ansible-control-node\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
 
 # Ensure the bash history and ssh known hosts files exists for mounting
 RUN touch ~/.bash_history
 
 # Embedd and set the entrypoint script
-COPY scripts/docker-entrypoint.sh /bin/docker-entrypoint.sh
+COPY ./scripts/docker-entrypoint.sh /bin/docker-entrypoint.sh
 RUN chmod +x /bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/bin/docker-entrypoint.sh", "bash"]

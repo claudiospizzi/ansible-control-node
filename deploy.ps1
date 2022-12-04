@@ -3,10 +3,11 @@ param ()
 
 $imageName = 'claudiospizzi/ansible-control-node'
 
-$version = Get-Content -Path 'CHANGELOG.md' |
-              Select-String -Pattern '## (.*)' |
-                  Select-Object -First 1 |
-                      ForEach-Object { $_.Line.Substring(3).Split('-')[0].Trim() }
+$version =
+    Get-Content -Path 'CHANGELOG.md' |
+        Select-String -Pattern '## (.*)' |
+            Select-Object -First 1 |
+                ForEach-Object { $_.Line.Substring(3).Split('-')[0].Trim() }
 
 if ($version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$')
 {
