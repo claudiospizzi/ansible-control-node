@@ -2,7 +2,7 @@
 
 Docker container designed as an Ansible control node on Windows hosts. To use the Ansible control node, you can directly start a parametrized Docker container or use the PowerShell helper module [PSAnsibleControlNode](https://www.powershellgallery.com/packages/PSAnsibleControlNode) to start the Docker container.
 
-For the docker run, two important volume mounts must be provided. The Ansible repository must be mounted to `/ansible` and the `/tmp/.ssh`. Please be aware of the special normalization for Windows paths without a drive colon and replacing `\` with `/`.
+For the docker run, two important volume mounts must be provided. The Ansible repository must be mounted to `/ansible` and the callers SSH folder to `/tmp/.ssh` to have the keys in the container. Please be aware of the special normalization for Windows paths without a drive colon and replacing `\` with `/`.
 
 ```bash
 docker run -it --rm -v /C/Workspace/AnsibleKeys:/tmp/.ssh:ro -v /C/Workspace/AnsibleRepo:/ansible claudiospizzi/ansible-control-node:latest

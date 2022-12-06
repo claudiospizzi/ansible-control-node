@@ -112,6 +112,8 @@ VOLUME [ "/tmp/.ssh" ]
 ## Ansible Customization
 ##
 
+ENV ANSIBLE_CONFIG /ansible/ansible.cfg
+
 ENV ANSIBLE_LIBRARY /ansible/library
 
 

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.4.1
+
+* Fixed: Set `ANSIBLE_CONFIG` to `/ansible/ansible.cfg` to prevent world-readable errors
+
 ## 1.4.0
 
 * Changed: Update Ansible to 6.2.0
