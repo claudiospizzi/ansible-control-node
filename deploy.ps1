@@ -9,16 +9,17 @@ $version =
             Select-Object -First 1 |
                 ForEach-Object { $_.Line.Substring(3).Split('-')[0].Trim() }
 
-if ($version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$')
+if ($version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$')
 {
     throw 'Invalid version format. Please use semantic versioning.'
 }
 
 $version = [System.Version] $version
 
-$tagMajor = 'v{0}' -f $version.Major
-$tagMinor = 'v{0}.{1}' -f $version.Major, $version.Minor
-$tagPatch = 'v{0}.{1}.{2}' -f $version.Major, $version.Minor, $version.Build
+$tagMajor    = 'v{0}' -f $version.Major
+$tagMinor    = 'v{0}.{1}' -f $version.Major, $version.Minor
+$tagPatch    = 'v{0}.{1}.{2}' -f $version.Major, $version.Minor, $version.Build
+$tagRevision = 'v{0}.{1}.{2}.{3}' -f $version.Major, $version.Minor, $version.Build, $version.Revision
 
 docker build -t "$imageName`:latest" .
 
